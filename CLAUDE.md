@@ -10,6 +10,13 @@ Greenhouse Home — Obsidian plugin. Renders Shawn's Greenhouse life dashboard (
 
 **Design of record:** `AGENTS/dev/greenhouse/greenhouse-v1-design.md` (spec) and `AGENTS/dev/greenhouse/plans/2026-07-09-greenhouse-v1-plan.md` (implementation plan).
 
+## Source of truth (2026-08-24)
+
+- **Canonical source: `C:\dev\obsidian-greenhouse-home`** (this repo). The vault folder `.obsidian/plugins/greenhouse-home/` is the *install target* — BRAT's territory once the BRAT install lands; never treat it as the dev environment.
+- Ship: bump `version` in `manifest.json` + `package.json` (+ `versions.json`) → commit → tag `vX.Y.Z` → push tag → CI (`.github/workflows/release.yml`) attaches `main.js`/`manifest.json`/`styles.css` → BRAT updates PC **and phone**. A release with no assets silently breaks BRAT; CI refuses to cut one.
+- Desktop iteration: `npm run dev:vault` builds straight into the vault folder. **`obsidian plugin:reload` does NOT swap code or the manifest** (verified 2026-08-24 — still reported 1.0.0). Use `app.plugins.disablePlugin(id)` → `app.plugins.loadManifests()` → `app.plugins.enablePlugin(id)` via `obsidian eval`, then verify pixels.
+- Text sizing: every size is `calc(var(--font-text-size,16px) * var(--gh-scale,1)) × k` — Obsidian's Appearance → Font size scales the view on every device; `A−`/`A+` (and the *Text size* slider) multiply on top via `settings.fontScale` (0.7–2.0, saved per device).
+
 ## Development Setup
 
 - **Build:** `npm run build` (esbuild → `main.js`)
