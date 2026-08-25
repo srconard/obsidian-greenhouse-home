@@ -1,0 +1,42 @@
+.greenhouse-view { --gh: calc(var(--font-text-size, 16px) * var(--gh-scale, 1)); font-size: var(--gh); padding: 1.1em; font-family: Georgia, serif; min-height: 100%; }
+.greenhouse-view.gh-day { background: linear-gradient(165deg, #dcebd8, #a8c8a8); color: #33523a; }
+.greenhouse-view.gh-night { background: linear-gradient(160deg, #2b1d12, #241509); color: #e8c98f; }
+.greenhouse-view a, .greenhouse-view .gh-link { color: inherit; text-decoration: none; cursor: pointer; }
+.greenhouse-view .gh-link:hover { text-decoration: underline; }
+.greenhouse-view .gh-wrap { max-width: 880px; margin: 0 auto; }
+.greenhouse-view .gh-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: .4em; margin-bottom: .75em; }
+.greenhouse-view .gh-title { font-size: calc(var(--gh) * 1.25); letter-spacing: 1px; }
+.greenhouse-view .gh-nav { font-size: calc(var(--gh) * .8); opacity: .8; white-space: nowrap; }
+.greenhouse-view .gh-nav span { cursor: pointer; margin-left: .6em; }
+.greenhouse-view .gh-nav .on { text-decoration: underline; }
+.greenhouse-view .gh-nav .gh-fs { display: inline-block; padding: .15em .55em; border: 1px solid currentColor; border-radius: .4em; opacity: .85; user-select: none; }
+.greenhouse-view .gh-bench { border-radius: .55em; padding: .7em .9em; margin-bottom: .9em; font-size: calc(var(--gh) * 1.05); line-height: 1.7; }
+.greenhouse-view.gh-day .gh-bench { background: rgba(255,253,235,.92); border: 1px solid rgba(210,190,110,.7); color: #4c5a35; }
+.greenhouse-view.gh-night .gh-bench { background: rgba(255,190,90,.08); border: 1px solid rgba(255,190,90,.3); color: #d9b277; }
+.greenhouse-view .gh-tier { font-size: calc(var(--gh) * .72); letter-spacing: 1.5px; opacity: .7; margin: .9em 0 .4em; }
+.greenhouse-view .gh-grid { display: grid; gap: .5em; align-items: start; }
+.greenhouse-view .gh-g3 { grid-template-columns: repeat(3, 1fr); }
+.greenhouse-view .gh-g4 { grid-template-columns: repeat(4, 1fr); }
+.greenhouse-view .gh-g6 { grid-template-columns: repeat(6, 1fr); }
+@media (max-width: 640px) {
+	.greenhouse-view .gh-g3, .greenhouse-view .gh-g4, .greenhouse-view .gh-g6 { grid-template-columns: repeat(2, 1fr); }
+}
+.greenhouse-view details.gh-bed { border-radius: .5em; overflow: hidden; }
+.greenhouse-view.gh-day details.gh-bed { background: rgba(255,255,255,.6); border: 1px solid rgba(140,170,140,.5); }
+.greenhouse-view.gh-night details.gh-bed { background: linear-gradient(170deg, #5a4226, #46311a); border: 1px solid rgba(120,90,50,.6); }
+.greenhouse-view.gh-day details.gh-bed.glow { background: rgba(255,253,225,.95); border-color: rgba(225,205,100,.9); box-shadow: 0 0 18px rgba(240,220,120,.8); }
+.greenhouse-view.gh-night details.gh-bed.glow { box-shadow: 0 0 16px rgba(255,176,66,.55); border-color: rgba(255,200,110,.5); }
+.greenhouse-view details.gh-bed.fallow { opacity: .65; }
+.greenhouse-view.gh-day details.gh-bed.fallow { background: rgba(255,255,255,.35); border-style: dashed; }
+.greenhouse-view .gh-bed summary { cursor: pointer; list-style: none; padding: .55em .65em; }
+.greenhouse-view .gh-bed summary::-webkit-details-marker { display: none; }
+.greenhouse-view .gh-bname { font-size: calc(var(--gh) * .95); }
+.greenhouse-view .gh-balive { font-size: calc(var(--gh) * .8); opacity: .8; margin-top: .25em;
+	display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.greenhouse-view .gh-room { padding: 0 .75em .75em; font-size: calc(var(--gh) * .85); line-height: 1.6; border-top: 1px dashed rgba(128,128,128,.3); }
+.greenhouse-view .gh-lbl { font-size: calc(var(--gh) * .68); letter-spacing: 1px; opacity: .6; margin-top: .65em; }
+.greenhouse-view .gh-foot { font-size: calc(var(--gh) * .75); opacity: .55; font-style: italic; margin-top: 1em; text-align: center; }
+.greenhouse-view .gh-task { padding: .5em .75em; border-radius: .5em; margin-bottom: .45em; font-size: calc(var(--gh) * .9); }
+.greenhouse-view.gh-day .gh-task { background: rgba(255,255,255,.6); }
+.greenhouse-view.gh-night .gh-task { background: rgba(255,255,255,.06); }
+.greenhouse-view .gh-stale { font-size: calc(var(--gh) * .8); opacity: .7; font-style: italic; margin-bottom: .5em; }

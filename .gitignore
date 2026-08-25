@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output
+main.js
+*.js.map
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+npm-debug.log*
+
+# Plugin settings (per device)
+data.json
+
+# Claude Code local config
+.claude/
