@@ -1,5 +1,6 @@
-import { ItemView, WorkspaceLeaf } from "obsidian";
+import { ItemView, Menu, WorkspaceLeaf } from "obsidian";
 import type GreenhousePlugin from "./main";
+import type { GreenhouseTheme } from "./settings";
 import type { Feed, FeedItem, Pillar } from "./types";
 import { loadFeed } from "./feed";
 
@@ -90,6 +91,34 @@ export class GreenhouseView extends ItemView {
 		this.app.workspace.openLinkText(link, "", false);
 	}
 
+	// theme: "obsidian" styles from live Obsidian variables (follows theme + light/dark instantly, no JS);
+	// "greenhouse" is the original skin, day or night by the clock at render time
+	applyTheme(): void {
+		const root = this.contentEl;
+		root.removeClass("gh-day", "gh-night", "gh-obsidian");
+		if (this.plugin.settings.theme === "greenhouse") {
+			const h = new Date().getHours();
+			root.addClass(h >= 6 && h < 18 ? "gh-day" : "gh-night");
+		} else {
+			root.addClass("gh-obsidian");
+		}
+	}
+
+	private openThemeMenu(ev: MouseEvent): void {
+		const current = this.plugin.settings.theme;
+		const pick = async (theme: GreenhouseTheme) => {
+			this.plugin.settings.theme = theme;
+			await this.plugin.saveSettings();
+			this.applyTheme();
+		};
+		const menu = new Menu();
+		menu.addItem(i => i.setTitle("Match Obsidian").setIcon("palette")
+			.setChecked(current === "obsidian").onClick(() => pick("obsidian")));
+		menu.addItem(i => i.setTitle("Greenhouse (day · night)").setIcon("sprout")
+			.setChecked(current === "greenhouse").onClick(() => pick("greenhouse")));
+		menu.showAtMouseEvent(ev);
+	}
+
 	// text scale: multiplies Obsidian's own font size; persisted in plugin settings (per device)
 	private async bumpScale(d: number): Promise<void> {
 		const s = this.plugin.settings;
@@ -109,9 +138,7 @@ export class GreenhouseView extends ItemView {
 		root.empty();
 		root.addClass("greenhouse-view");
 		root.style.setProperty("--gh-scale", String(this.plugin.settings.fontScale || 1));
-		const h = new Date().getHours();
-		root.removeClass("gh-day", "gh-night");
-		root.addClass(h >= 6 && h < 18 ? "gh-day" : "gh-night");
+		this.applyTheme();
 
 		const wrap = root.createDiv({ cls: "gh-wrap" });
 		if (!this.feed) {
@@ -132,6 +159,8 @@ export class GreenhouseView extends ItemView {
 		const fsPlus = nav.createSpan({ text: "A+", cls: "gh-fs", title: "bigger text" });
 		fsMinus.onClickEvent(() => this.bumpScale(-0.1));
 		fsPlus.onClickEvent(() => this.bumpScale(0.1));
+		const gear = nav.createSpan({ text: "⚙", cls: "gh-fs gh-gear", title: "greenhouse settings" });
+		gear.onClickEvent((ev) => this.openThemeMenu(ev));
 
 		if (!this.fresh) wrap.createDiv({ cls: "gh-stale", text: `⚠ offline copy — as of ${feed.generated_at}` });
 

@@ -40,3 +40,20 @@
 .greenhouse-view.gh-day .gh-task { background: rgba(255,255,255,.6); }
 .greenhouse-view.gh-night .gh-task { background: rgba(255,255,255,.06); }
 .greenhouse-view .gh-stale { font-size: calc(var(--gh) * .8); opacity: .7; font-style: italic; margin-bottom: .5em; }
+
+/* Match Obsidian — only live Obsidian variables here, never hard-coded colours: the view then follows
+   whatever theme is active and its light/dark half the instant Obsidian switches. */
+.greenhouse-view.gh-obsidian { background: var(--background-primary); color: var(--text-normal); font-family: var(--font-text); }
+.greenhouse-view.gh-obsidian .gh-bench { background: var(--background-secondary); border: 1px solid var(--background-modifier-border); color: var(--text-normal); }
+.greenhouse-view.gh-obsidian details.gh-bed { background: var(--background-secondary); border: 1px solid var(--background-modifier-border); }
+.greenhouse-view.gh-obsidian details.gh-bed.glow { border-color: var(--interactive-accent); box-shadow: 0 0 14px rgba(0,0,0,.3); box-shadow: 0 0 14px color-mix(in srgb, var(--interactive-accent) 45%, transparent); }
+.greenhouse-view.gh-obsidian details.gh-bed.fallow { border-style: dashed; }
+.greenhouse-view.gh-obsidian .gh-room { border-top-color: var(--background-modifier-border); }
+.greenhouse-view.gh-obsidian .gh-task { background: var(--background-secondary); }
+.greenhouse-view.gh-obsidian .gh-tier,
+.greenhouse-view.gh-obsidian .gh-lbl,
+.greenhouse-view.gh-obsidian .gh-foot,
+.greenhouse-view.gh-obsidian .gh-stale { color: var(--text-muted); opacity: .9; }
+.greenhouse-view.gh-obsidian .gh-link:hover,
+.greenhouse-view.gh-obsidian .gh-nav .on { color: var(--text-accent); }
+.greenhouse-view .gh-nav .gh-gear { padding: .15em .45em; }

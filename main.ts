@@ -32,6 +32,13 @@ export default class GreenhousePlugin extends Plugin {
 		if (view instanceof GreenhouseView && !view.hasFeed()) await view.reload(true);
 	}
 
+	// re-apply the theme on every open greenhouse view (settings-tab changes)
+	refreshViews(): void {
+		for (const leaf of this.app.workspace.getLeavesOfType(VIEW_TYPE)) {
+			if (leaf.view instanceof GreenhouseView) leaf.view.applyTheme();
+		}
+	}
+
 	async loadSettings() { this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData()); }
 	async saveSettings() { await this.saveData(this.settings); }
 }

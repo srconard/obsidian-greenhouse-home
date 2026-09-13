@@ -1,9 +1,9 @@
 {
 	"id": "greenhouse-home",
 	"name": "Greenhouse Home",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"minAppVersion": "1.4.0",
-	"description": "Greenhouse life dashboard as the vault home view — bench + 16 pillar beds, day/night skins, fed by AGENTS/dashboard/feed.json.",
+	"description": "Greenhouse life dashboard as the vault home view — bench + 16 pillar beds, matches your Obsidian theme (or the original day/night skins), fed by AGENTS/dashboard/feed.json.",
 	"author": "Shawn",
 	"isDesktopOnly": false
 }
