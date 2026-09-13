@@ -18,6 +18,14 @@
 .greenhouse-view .gh-g3 { grid-template-columns: repeat(3, 1fr); }
 .greenhouse-view .gh-g4 { grid-template-columns: repeat(4, 1fr); }
 .greenhouse-view .gh-g6 { grid-template-columns: repeat(6, 1fr); }
+/* side-panel widths (v1.3.0): classes set from the view's own width in onResize, because a media
+   query reads the window and a sidebar can be a third of it */
+.greenhouse-view.gh-narrow .gh-g3, .greenhouse-view.gh-narrow .gh-g4, .greenhouse-view.gh-narrow .gh-g6 { grid-template-columns: repeat(2, 1fr); }
+.greenhouse-view.gh-narrow { padding: .7em; }
+.greenhouse-view.gh-narrow .gh-wrap { max-width: none; }
+.greenhouse-view.gh-narrow .gh-head { flex-direction: column; align-items: flex-start; }
+.greenhouse-view.gh-narrow .gh-nav span:first-child { margin-left: 0; }
+.greenhouse-view.gh-tight .gh-g3, .greenhouse-view.gh-tight .gh-g4, .greenhouse-view.gh-tight .gh-g6 { grid-template-columns: 1fr; }
 @media (max-width: 640px) {
 	.greenhouse-view .gh-g3, .greenhouse-view .gh-g4, .greenhouse-view .gh-g6 { grid-template-columns: repeat(2, 1fr); }
 }

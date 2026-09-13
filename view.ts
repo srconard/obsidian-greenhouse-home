@@ -1,6 +1,6 @@
 import { ItemView, Menu, WorkspaceLeaf } from "obsidian";
 import type GreenhousePlugin from "./main";
-import type { GreenhouseTheme } from "./settings";
+import { LOCATION_LABELS, type GreenhouseLocation, type GreenhouseTheme } from "./settings";
 import type { Feed, FeedItem, Pillar } from "./types";
 import { loadFeed } from "./feed";
 
@@ -58,6 +58,15 @@ export class GreenhouseView extends ItemView {
 	}
 
 	getViewType(): string { return VIEW_TYPE; }
+
+	// a side panel is far narrower than the 640px media query assumes (the phone drawer is ~350px):
+	// size the grids from the VIEW's width, not the window's
+	onResize(): void { this.applyWidth(); }
+	private applyWidth(): void {
+		const w = this.contentEl.clientWidth;
+		this.contentEl.toggleClass("gh-narrow", w > 0 && w < 600);
+		this.contentEl.toggleClass("gh-tight", w > 0 && w < 380);
+	}
 	getDisplayText(): string { return "Greenhouse"; }
 	getIcon(): string { return "sprout"; }
 
@@ -116,6 +125,15 @@ export class GreenhouseView extends ItemView {
 			.setChecked(current === "obsidian").onClick(() => pick("obsidian")));
 		menu.addItem(i => i.setTitle("Greenhouse (day · night)").setIcon("sprout")
 			.setChecked(current === "greenhouse").onClick(() => pick("greenhouse")));
+		// where it opens (v1.3.0): main pane or a side panel; picking moves this view there and remembers
+		menu.addSeparator();
+		menu.addItem(i => i.setTitle("Open in…").setIsLabel(true));
+		const loc = this.plugin.settings.location ?? "main";
+		const icons: Record<GreenhouseLocation, string> = { main: "layout", left: "panel-left", right: "panel-right" };
+		(Object.keys(LOCATION_LABELS) as GreenhouseLocation[]).forEach(k => {
+			menu.addItem(i => i.setTitle(LOCATION_LABELS[k]).setIcon(icons[k])
+				.setChecked(loc === k).onClick(() => this.plugin.moveTo(k)));
+		});
 		menu.showAtMouseEvent(ev);
 	}
 
@@ -139,6 +157,7 @@ export class GreenhouseView extends ItemView {
 		root.addClass("greenhouse-view");
 		root.style.setProperty("--gh-scale", String(this.plugin.settings.fontScale || 1));
 		this.applyTheme();
+		this.applyWidth();
 
 		const wrap = root.createDiv({ cls: "gh-wrap" });
 		if (!this.feed) {

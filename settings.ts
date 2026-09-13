@@ -4,8 +4,17 @@ import type GreenhousePlugin from "./main";
 // "obsidian" follows the active Obsidian theme live (both halves); "greenhouse" is the original day/night skin
 export type GreenhouseTheme = "obsidian" | "greenhouse";
 
+// where the greenhouse opens: a main-pane tab, or the left / right sidebar (phone: that drawer)
+export type GreenhouseLocation = "main" | "left" | "right";
+export const LOCATION_LABELS: Record<GreenhouseLocation, string> = {
+	main: "Main pane",
+	left: "Left side panel",
+	right: "Right side panel",
+};
+
 export interface GreenhouseSettings {
 	openOnStartup: boolean;
+	location: GreenhouseLocation;
 	bridgeUrl: string;
 	fetchTimeoutMs: number;
 	fontScale: number;
@@ -14,6 +23,7 @@ export interface GreenhouseSettings {
 
 export const DEFAULT_SETTINGS: GreenhouseSettings = {
 	openOnStartup: true,
+	location: "main",
 	bridgeUrl: "http://100.97.68.101:8787",
 	fetchTimeoutMs: 5000,
 	fontScale: 1.0,
@@ -30,6 +40,13 @@ export class GreenhouseSettingTab extends PluginSettingTab {
 			.setDesc("Open the greenhouse as the home view when Obsidian launches.")
 			.addToggle(t => t.setValue(this.plugin.settings.openOnStartup)
 				.onChange(async v => { this.plugin.settings.openOnStartup = v; await this.plugin.saveSettings(); }));
+		new Setting(containerEl).setName("Where it opens")
+			.setDesc("Main pane (a tab), or the left / right side panel — on the phone that is the drawer you swipe in from that edge. Also on the ⚙ button in the view; changing it moves an open greenhouse.")
+			.addDropdown(d => {
+				(Object.keys(LOCATION_LABELS) as GreenhouseLocation[]).forEach(k => d.addOption(k, LOCATION_LABELS[k]));
+				d.setValue(this.plugin.settings.location)
+					.onChange(async v => { await this.plugin.moveTo(v as GreenhouseLocation); });
+			});
 		new Setting(containerEl).setName("Bridge URL")
 			.setDesc("NAS bridge base URL serving /greenhouse/feed.json (Tailscale).")
 			.addText(t => t.setValue(this.plugin.settings.bridgeUrl)
